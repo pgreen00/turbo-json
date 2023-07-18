@@ -3,7 +3,7 @@ try
 {
     if (args[0] == "local")
     {
-        server = "https://localhost:57812/api/TurboStats";
+        server = "http://localhost:57812/api/TurboStats";
         Console.WriteLine("---Sending data to a local service, if one is not running, this script will not execute.");
     }
     else if (args[0] == "web")
