@@ -1,31 +1,26 @@
 ﻿string server;
 try
 {
-    if (Int32.TryParse(args[0], out int year))
+    if (args[0] == "local")
     {
-        if (args[1] == "local")
-        {
-            server = $"http://localhost:57812/api/TurboStats/{year}";
-            Console.WriteLine("---Sending data to a local service, if one is not running, this script will not execute.");
-        }
-        else if (args[1] == "production")
-        {
-            server = $"https://api.thegrindsession.com/api/TurboStats/{year}";
-            Console.WriteLine("---Sending data to https://api.thegrindsession.com");
-        }
-        else
-        {
-            throw new Exception("ERROR: You must specify either 'local' or 'production' for the environment.");
-        }
+        server = "https://localhost:57812/api/TurboStats";
+        Console.WriteLine("---Sending data to a local service, if one is not running, this script will not execute.");
+    }
+    else if (args[0] == "web")
+    {
+        server = "https://mobileapi.thegrindsession.com/api/TurboStats";
+        Console.WriteLine("---Sending data to https://mobileapi.thegrindsession.com");
     }
     else
     {
-        throw new Exception("ERROR: You must specify the year and the environment. Ex. turbo-json 2021 local");
+        throw new Exception();
     }
 }
-catch(Exception ex)
+catch (Exception ex)
 {
-    Console.WriteLine(ex.Message);
+    Console.WriteLine("ERROR: You must specify either 'local' or 'web' at the command line.");
+    Console.WriteLine("       Use local if you are running the api on localhost.");
+    Console.WriteLine("       Use web if you are using the official api at 'mobileapi.thegrindsession.com/api'.");
     return;
 }
 
@@ -73,7 +68,7 @@ try
         }
     }
 }
-catch
+catch (Exception ex)
 {
     Console.WriteLine("---Something went wrong. Make sure a service is running locally if you specified local at the command line.");
 }
